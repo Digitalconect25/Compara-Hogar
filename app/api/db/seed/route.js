@@ -5,7 +5,7 @@ import { PRODUCTS, BLOG_POSTS, GUIAS, COMPARATIVES } from "@/lib/products";
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const key = searchParams.get("key");
-  if (key !== (process.env.ADMIN_KEY || "comparahogar2026")) {
+  if (key !== (process.env.ADMIN_KEY || "Compra2026")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
