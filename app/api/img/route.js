@@ -3,12 +3,16 @@ export const runtime = "edge";
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const url = searchParams.get("url");
-  if (!url || !url.includes("amazon.com/images") && !url.includes("media-amazon.com")) {
-    return new Response("Invalid URL", { status: 400 });
+  if (!url || !url.startsWith("http")) {
+    return new Response("Missing or invalid url param", { status: 400 });
   }
   try {
     const res = await fetch(url, {
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; ComparaHogar/1.0)" },
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "image/webp,image/apng,image/*,*/*;q=0.8",
+        "Referer": url,
+      },
     });
     if (!res.ok) return new Response("Image not found", { status: 404 });
     const blob = await res.blob();
@@ -19,7 +23,7 @@ export async function GET(request) {
         "Access-Control-Allow-Origin": "*",
       },
     });
-  } catch {
-    return new Response("Fetch error", { status: 500 });
+  } catch (e) {
+    return new Response("Fetch error: " + e.message, { status: 500 });
   }
 }
