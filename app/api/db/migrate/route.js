@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const key = searchParams.get("key");
-  if (key !== (process.env.ADMIN_KEY || "comparahogar2026")) {
+  if (key !== (process.env.ADMIN_KEY || "Compra2026")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   try {
@@ -41,7 +41,12 @@ export async function GET(request) {
       meta_description TEXT DEFAULT '', items JSONB DEFAULT '[]',
       created_at TIMESTAMP DEFAULT NOW(), updated_at TIMESTAMP DEFAULT NOW()
     )`;
-    return NextResponse.json({ success: true, message: "4 tablas creadas: products, blog_posts, guias, comparatives" });
+    await sql`CREATE TABLE IF NOT EXISTS site_config (
+      id SERIAL PRIMARY KEY, config_key VARCHAR(100) UNIQUE NOT NULL,
+      config_value JSONB DEFAULT '{}',
+      updated_at TIMESTAMP DEFAULT NOW()
+    )`;
+    return NextResponse.json({ success: true, message: "5 tablas creadas: products, blog_posts, guias, comparatives, site_config" });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
