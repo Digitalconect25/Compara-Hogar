@@ -39,7 +39,7 @@ export default function HeroBanner() {
   }, []);
 
   useEffect(function() {
-    var timer = setInterval(function() { setCurrent(function(c) { return (c + 1) % slides.length; }); }, 6000);
+    var timer = setInterval(function() { setCurrent(function(c) { return (c + 1) % slides.length; }); }, 10000);
     return function() { clearInterval(timer); };
   }, [slides.length]);
 
